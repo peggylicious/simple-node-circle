@@ -1,0 +1,31 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/node:12.22.12
+    # machine: 
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
+      - run: 
+             name: Build docker images
+             command: |
+                      node --version
+                      echo "------- Building images ---------"
+                      docker build -t simple-node-circle ./simple-node-circle
+
+                      echo "------- Start tagging images ---------"
+                      docker tag simple-node-circle peggylicious/simple-node-circle:v1
+
+                      echo "------- Log in to docker hub ---------"
+
+                      echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+                      docker push peggylicious/simple-node-circle:v1
+# Do similar for other three images
+
+# docker tag local-image:tagname new-repo:tagname
+# docker push new-repo:tagname
