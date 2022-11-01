@@ -15,7 +15,7 @@ jobs:
              command: |
                       node --version
                       echo "------- Building images ---------"
-                      docker build -t simple-node-circle ./simple-node-circle
+                      docker build -t simple-node-circle .
 
                       echo "------- Start tagging images ---------"
                       docker tag simple-node-circle peggylicious/simple-node-circle:v1
